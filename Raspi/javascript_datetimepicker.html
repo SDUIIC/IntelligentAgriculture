@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>智能农业</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
+    <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="./bootstrap/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+</head>
+
+<body>
+<div class="container">
+    <form action="" class="form-horizontal"  role="form">
+        <fieldset>
+            <h3>选择电磁阀开启时间段</h3>
+            <hr>
+            <div class="form-group group1">
+                <label for="dtp_input1" class="col-md-2 control-label">开始时间</label>
+                <div class="input-group date form_datetime col-md-5 group11" data-link-field="dtp_input1">
+                    <input class="form-control" size="16" type="text" value="" readonly id="starttime">
+                    <span class="input-group-addon group12"><span class="glyphicon glyphicon-remove"></span></span>
+					<span class="input-group-addon group13"><span class="glyphicon glyphicon-th"></span></span>
+                </div>
+				<input type="hidden" id="dtp_input1" value="" /><br/>
+            </div>
+
+            <div class="form-group group2">
+                <label for="dtp_input1" class="col-md-2 control-label">结束时间</label>
+                <div class="input-group date form_datetime col-md-5 group21" data-link-field="dtp_input2">
+                    <input class="form-control" size="16" type="text" value="" readonly id="endtime">
+                    <span class="input-group-addon group22"><span class="glyphicon glyphicon-remove"></span></span>
+                    <span class="input-group-addon group23"><span class="glyphicon glyphicon-th"></span></span>
+                </div>
+                <input type="hidden" id="dtp_input2" value="" /><br/>
+            </div>
+
+        </fieldset>
+        <hr>
+        <div class="text-center">
+            <span id="btn1" class="text-center col-sm-6"><input type="button" class="btn btn-danger" value="&nbsp;&nbsp;&nbsp;&nbsp;取消&nbsp;&nbsp;&nbsp;&nbsp;"></span>
+            <span id="btn2" class="text-center col-sm-6"><input type="button" class="btn btn-success" value="&nbsp;&nbsp;&nbsp;&nbsp;确定&nbsp;&nbsp;&nbsp;&nbsp;"></span>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript" src="./bootstrap/js/jquery-1.8.3.min.js" charset="UTF-8"></script>
+<script type="text/javascript" src="./bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="./bootstrap/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+<script type="text/javascript" src="./bootstrap/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<script type="text/javascript">
+    $('.form_datetime').datetimepicker({
+        language:  'zh-CN',
+        format: 'yyyy-mm-dd hh:ii p',
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		forceParse: 0,
+        showMeridian: 1
+    });
+
+    $('#starttime').trigger('focus');
+    $('#starttime').change(function(){
+        var time1=getDate(this.value);
+        if(time1 < new Date()){
+            alert('开始时间要大于当前时刻！');
+            $('#starttime').val("");
+            $('#starttime').trigger('focus');
+
+        }
+    });
+
+    $('.group2').click(function(){
+        if($('#starttime').val()==null){
+            alert('请输入开始时间！');
+            $('#starttime').trigger('focus');
+        }
+
+    });
+
+    $('#endtime').change(function(){
+        var time1=getDate($('#starttime').val());
+        if(time1==null){
+            alert('请输入开始时间！');
+            $('#starttime').trigger('focus');
+
+        }
+
+        var time2=getDate($('#endtime').val());
+        if(time2<time1){
+            alert('结束时间要大于开始时间！');
+            $('#endtime').trigger('focus');
+        }
+    });
+
+    //字符串转时间
+    function getDate(strDate) {
+        var date = eval('new Date(' + strDate.replace(/\d+(?=-[^-]+$)/,
+            function (a) { return parseInt(a, 10) - 1; }).match(/\d+/g) + ')');
+        return date;
+    }
+
+    $('#btn1').click(function () {
+        $('#starttime').val("");
+        $('#endtime').val("");
+    });
+
+    $('#btn2').click(function () {
+
+    });
+
+</script>
+
+</body>
+</html>
